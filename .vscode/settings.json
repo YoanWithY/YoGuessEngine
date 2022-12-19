@@ -8,5 +8,4 @@
         "shader.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled",
-    "explorer.sortOrder": "type"
 }

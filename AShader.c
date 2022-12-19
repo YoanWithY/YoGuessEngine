@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glew.h>
-#include "shader.h"
-/* Loads the content of a file and tries to compile it as the specified shader type. */
+#include "AShader.h"
+/* Loads the content of a file and tries to compile it as the specified AShader type. */
 static GLuint loadShader(char fileName[], GLenum type)
 {
     GLuint shader = glCreateShader(type);
@@ -48,14 +48,14 @@ static GLuint loadShader(char fileName[], GLenum type)
     }
     else
     {
-        printf("Could not find shader file: %s", fileName);
+        printf("Could not find AShader file: %s", fileName);
     }
 
     return shader;
 }
 
-/* Creates a shader structure which contains the gl pointer to the linked program. */
-shader createShader(char vertName[], char fragName[])
+/* Creates a AShader structure which contains the gl pointer to the linked program. */
+AShader createShader(char vertName[], char fragName[])
 {
     GLuint vert = loadShader(vertName, GL_VERTEX_SHADER);
     GLuint frag = loadShader(fragName, GL_FRAGMENT_SHADER);
@@ -68,6 +68,6 @@ shader createShader(char vertName[], char fragName[])
     glDeleteShader(vert);
     glDeleteShader(frag);
 
-    shader s = {prog};
+    AShader s = {prog};
     return s;
 }

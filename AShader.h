@@ -4,6 +4,6 @@ typedef struct
 {
     // The pointer to this shaders program
     GLuint prog;
-} shader;
+} AShader;
 
-shader createShader(char vertName[], char fragName[]);
+AShader createShader(char vertName[], char fragName[]);

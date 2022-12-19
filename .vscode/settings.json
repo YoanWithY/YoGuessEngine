@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "glfw3.h": "c",
+        "aglfwwindow.h": "c",
+        "gl.h": "c",
+        "shader.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled",
+    "explorer.sortOrder": "type"
+}

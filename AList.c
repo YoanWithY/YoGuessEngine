@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "AList.h"
+#include "aList.h"
 
 AList createAList()
 {
@@ -7,14 +7,14 @@ AList createAList()
     return list;
 }
 
-void addToList(AList *list, void *ptr)
+void addToList(AList *const list, void *const ptr)
 {
-    if (list->max <= list->size)
+    if (list->capacity <= list->size)
     {
         void **old = list->data;
-        unsigned int oldMax = list->max;
-        list->max *= 2;
-        list->data = malloc(list->max * sizeof(NULL));
+        unsigned int oldMax = list->capacity;
+        list->capacity *= 2;
+        list->data = malloc(list->capacity * sizeof(NULL));
 
         for (int i = 0; i < oldMax; i++)
         {

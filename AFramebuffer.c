@@ -1,5 +1,5 @@
 #include <glew.h>
-#include "AFramebuffer.h"
+#include "aFramebuffer.h"
 
 AFramebuffer createAFramebuffer(unsigned int width, unsigned int height)
 {

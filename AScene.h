@@ -1,7 +1,7 @@
 #pragma once
-#include "AShader.h"
-#include "VAO.h"
-#include "AList.h"
+#include "aShader.h"
+#include "aVAO.h"
+#include "aList.h"
 
 typedef struct
 {

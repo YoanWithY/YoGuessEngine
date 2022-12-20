@@ -1,6 +1,6 @@
 CC=gcc
 
-GAME_SRC=main.c AGLFWWindow.c VAO.c AShader.c AFramebuffer.c AScene.c AList.c
+GAME_SRC=main.c aGLFWWindow.c aVAO.c aShader.c aFramebuffer.c aScene.c aList.c aArrayList.c svg.c vec2.c vec3.c vec4.c
 LIB_PATH=C:/Users/yoatc/Documents/clibs
 LIBS=glfw-3.3.8.bin.WIN64/lib-mingw-w64
 GLFW=glfw-3.3.8.bin.WIN64/include

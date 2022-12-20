@@ -2,10 +2,14 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 #include "AGLFWWindow.h"
-#include "VAO.h"
-#include "AShader.h"
-#include "AFramebuffer.h"
-#include "AScene.h"
+#include "aVAO.h"
+#include "aShader.h"
+#include "aFramebuffer.h"
+#include "aScene.h"
+#include "vec3.h"
+#include "aArrayList.h"
+#include "vec2.h"
+#include "vec4.h"
 
 static AFramebuffer dfbo = {0, 0, 0, 0};
 static GLFWwindow *window;
@@ -28,7 +32,7 @@ static void drawFrame()
 
     for (unsigned int i = 0; i < vaoList.size; i++)
     {
-        glDrawElements(GL_TRIANGLES, vaos[0]->numIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, vaos[0]->ibo.size, GL_UNSIGNED_INT, 0);
     }
 
     printf("width: %d, height: %d \n", dfbo.width, dfbo.height);
@@ -52,13 +56,14 @@ int main(int argc, char *argv[])
     printf("Renderer: %s\n", glGetString(GL_RENDER));
 
     unsigned int ibo[] = {0, 1, 2};
-    float pbo[] = {0.0f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f};
-    float vcbo[] = {1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f};
-    float coverage[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    vec2 pbo[] = {{0.0f, 0.5f}, {-0.5f, -0.5f}, {0.5f, -0.5f}};
+    vec4 vcbo[] = {{1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.0f}};
+    float coverage[] = {1.0f, 1.0f, 1.0f};
 
-    VAO vao = cretateVAOByData(3, 3, ibo, pbo, vcbo, coverage);
+    VAO vao = createVAOFromData(3, 3, ibo, pbo, vcbo, coverage);
+    printVAO(&vao);
 
-    AShader sha = createShader("AShader/basicVert.glsl", "AShader/basicFrag.glsl");
+    AShader sha = createShader("shader/basicVert.glsl", "shader/basicFrag.glsl");
 
     scene.shader = sha;
     scene.vaos = createAList();

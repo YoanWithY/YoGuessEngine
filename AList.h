@@ -2,7 +2,7 @@
 
 typedef struct
 {
-    unsigned int max, size;
+    unsigned int capacity, size;
     void **data;
 } AList;
 

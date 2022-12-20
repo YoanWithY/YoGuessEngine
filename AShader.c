@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glew.h>
-#include "AShader.h"
+#include "aShader.h"
 /* Loads the content of a file and tries to compile it as the specified AShader type. */
 static GLuint loadShader(char fileName[], GLenum type)
 {
@@ -48,7 +48,7 @@ static GLuint loadShader(char fileName[], GLenum type)
     }
     else
     {
-        printf("Could not find AShader file: %s", fileName);
+        printf("Could not find shader file: %s", fileName);
     }
 
     return shader;

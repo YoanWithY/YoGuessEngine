@@ -1,11 +1,14 @@
 {
     "files.associations": {
+        "*.h": "c",
         "stdlib.h": "c",
         "stdio.h": "c",
         "glfw3.h": "c",
         "aglfwwindow.h": "c",
         "gl.h": "c",
-        "shader.h": "c"
+        "shader.h": "c",
+        "limits": "c",
+        "*.tcc": "c"
     },
     "C_Cpp.errorSquiggles": "enabled",
 }

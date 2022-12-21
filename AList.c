@@ -7,23 +7,19 @@ AList createAList()
     return list;
 }
 
-void addToList(AList *const list, void *const ptr)
+void addToList(AList *list, void *ptr)
 {
     if (list->capacity <= list->size)
     {
-        void **old = list->data;
-        unsigned int oldMax = list->capacity;
         list->capacity *= 2;
-        list->data = malloc(list->capacity * sizeof(NULL));
-
-        for (int i = 0; i < oldMax; i++)
-        {
-            list->data[i] = old[i];
-        }
-
-        free(old);
+        list->data = realloc(list->data, list->capacity * sizeof(void *));
     }
 
     list->data[list->size] = ptr;
     list->size++;
+}
+
+void freeList(AList *list)
+{
+    free(list->data);
 }

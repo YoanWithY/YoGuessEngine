@@ -45,7 +45,7 @@ void storeIndexBufferInGLIBO(VAO *vao)
 void storeFloatDataInGLVBO(GLuint vbo, AArrayList *list)
 {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, list->size * list->elementSize, list->data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, list->size * list->sizeOfElement, list->data, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -61,7 +61,6 @@ VAO createVAO()
     return vao;
 }
 
-// Creates a VAO from data.
 VAO createVAOFromData(unsigned int numIndices, unsigned int numVertices, unsigned int ibo[], vec2 pbo[], vec4 vcbo[], float coverage[])
 {
     VAO vao = createVAO();

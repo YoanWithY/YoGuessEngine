@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <glew.h>
 #include <GLFW/glfw3.h>
+#include <time.h>
 #include "AGLFWWindow.h"
 #include "aVAO.h"
 #include "aShader.h"
@@ -35,25 +37,29 @@ static void drawFrame()
         glDrawElements(GL_TRIANGLES, vaos[0]->ibo.size, GL_UNSIGNED_INT, 0);
     }
 
-    printf("width: %d, height: %d \n", dfbo.width, dfbo.height);
-
     glBindVertexArray(0);
     glUseProgram(0);
 
     glfwSwapBuffers(window);
 }
 
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    dfbo.width = width;
+    dfbo.height = height;
+    drawFrame();
+}
+
 int main(int argc, char *argv[])
 {
-    window = initGLFWAndGLEW("OpenGL Application", 512, 512, &dfbo, drawFrame);
+    window = initGLFWAndGLEW("OpenGL Application", 512, 512, &dfbo);
 
     // AFramebuffer fbo = createAFramebuffer(dfbo.width / 4, dfbo.height / 4);
     glBindFramebuffer(GL_FRAMEBUFFER, dfbo.fbo);
 
-    printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
-    printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    printf("Vendor: %s\n", glGetString(GL_VENDOR));
-    printf("Renderer: %s\n", glGetString(GL_RENDER));
+    printf_s("OpenGL Version: %s\n", glGetString(GL_VERSION));
+    printf_s("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    printf_s("Vendor: %s\n", glGetString(GL_VENDOR));
 
     unsigned int ibo[] = {0, 1, 2};
     vec2 pbo[] = {{0.0f, 0.5f}, {-0.5f, -0.5f}, {0.5f, -0.5f}};
@@ -69,15 +75,36 @@ int main(int argc, char *argv[])
     scene.vaos = createAList();
     addToList(&scene.vaos, &vao);
 
+    printf_s("Begin Loop\n");
+    clock_t start_t, end_t;
+    double total_t;
+    unsigned long long step = 0;
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     while (!glfwWindowShouldClose(window))
     {
+        start_t = clock();
+        printf_s("Begin Step: %llu\n", step);
         glfwPollEvents();
         drawFrame();
+        step++;
+
+        end_t = clock();
+        total_t = (double)(end_t - start_t);
+
+        char title[32];
+        snprintf(title, 32, "Time: %dms, FPS: %d", (int)(total_t), (int)(1000.0 / total_t));
+        glfwSetWindowTitle(window, title);
     }
 
-    destroyVAO(&vao);
+    printf_s("Destroy Scene\n");
+    destroyScene(&scene);
 
+    printf("Destroy GLTF window\n");
     glfwDestroyWindow(window);
+
+    printf("Destroy GLTF\n");
     glfwTerminate();
+
+    printf("terminate");
     return 0;
 }

@@ -4,12 +4,9 @@
 #include "AFramebuffer.h"
 #include "AGLFWWindow.h"
 
-static AFramebuffer *dFBO;
-static void (*frameUpdate)(void);
-
 static void error_callback(int error, const char description[])
 {
-    fprintf(stderr, "Error: %s\n", description);
+    printf_s("GLTF Error: %s\n", description);
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -17,19 +14,22 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
-    printf("Key: %d, Scanncode: %d, action: %d, mods: %d\n", key, scancode, action, mods);
+    printf_s("Key: %d, Scanncode: %d, action: %d, mods: %d\n", key, scancode, action, mods);
 }
 
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+void glm(GLenum source,
+         GLenum type,
+         GLuint id,
+         GLenum severity,
+         GLsizei length,
+         const GLchar *message,
+         const void *userParam)
 {
-    dFBO->width = width;
-    dFBO->height = height;
-    frameUpdate();
+    printf_s("OpenGL Message: %s", message);
 }
 
-GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *dfbo, void (*frameUpdateFunction)(void))
+GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *dfbo)
 {
-    frameUpdate = frameUpdateFunction;
     glfwSetErrorCallback(error_callback);
 
     if (!glfwInit())
@@ -40,20 +40,23 @@ GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *d
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
     glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    GLFWwindow *window = glfwCreateWindow(640, 480, title, NULL, NULL);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+    GLFWwindow *window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!window)
     {
         printf_s("Window initilization failed! Program will probably terminate");
     }
-    dFBO = dfbo;
     glfwSetKeyCallback(window, key_callback);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
     glewInit();
+
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    glDebugMessageCallback(glm, NULL);
 
     dfbo->width = width;
     dfbo->height = height;

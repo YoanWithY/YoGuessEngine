@@ -8,48 +8,54 @@ static GLuint loadShader(char fileName[], GLenum type)
 {
     GLuint shader = glCreateShader(type);
 
-    char *buffer = 0;
     long length;
-    FILE *f = fopen(fileName, "r");
+    FILE *f;
+    fopen_s(&f, fileName, "rb");
 
     if (f)
     {
         fseek(f, 0, SEEK_END);
         length = ftell(f);
         rewind(f);
-        buffer = malloc(sizeof(char) * length + 1);
-        if (buffer)
+        char *buffer = malloc(sizeof(char) * length + 1);
+
+        int i = 0;
+        char c;
+        while ((c = fgetc(f)) != EOF)
         {
-            int i = 0;
-            char c;
-            while ((c = fgetc(f)) != EOF)
-            {
-                buffer[i] = c;
-                i++;
-            }
-
-            buffer[i] = 0;
-
-            glShaderSource(shader, 1, (const char *const *)(&buffer), NULL);
-            glCompileShader(shader);
-            int cs = 0;
-            glGetShaderiv(shader, GL_COMPILE_STATUS, &cs);
-            if (cs == GL_FALSE)
-            {
-                int length = 0;
-                GLchar il[512];
-                glGetShaderInfoLog(shader, 512, &length, il);
-                printf("Could not Compile Shader! %s \n %s \n resived shader code: \n %s", fileName, il, buffer);
-            }
-
-            free(buffer);
+            buffer[i] = c;
+            i++;
         }
-        fclose(f);
+        if (i < length)
+        {
+            buffer[i] = 0;
+        }
+        else
+        {
+            buffer[length] = 0;
+        }
+
+        glShaderSource(shader, 1, (const char *const *)(&buffer), NULL);
+        glCompileShader(shader);
+        int cs = 0;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &cs);
+        if (cs == GL_FALSE)
+        {
+            printf_s("Could not Compile Shader! %s\n", fileName);
+            int length = 0;
+            GLchar il[512];
+            glGetShaderInfoLog(shader, 512, &length, il);
+            printf_s("%s \n resived shader code: \n %s\n", il, buffer);
+        }
+
+        free(buffer);
     }
     else
     {
-        printf("Could not find shader file: %s", fileName);
+        printf_s("Could not find shader file: %s", fileName);
     }
+
+    fclose(f);
 
     return shader;
 }
@@ -70,4 +76,9 @@ AShader createShader(char vertName[], char fragName[])
 
     AShader s = {prog};
     return s;
+}
+
+void destroyShader(AShader *shader)
+{
+    glDeleteProgram(shader->prog);
 }

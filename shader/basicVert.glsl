@@ -10,5 +10,5 @@ out float coverage;
 void main(void){
 	gl_Position = vec4(iPos, 0.0, 1.0);
 	color = iColor;
-    coverage = iCoverage;
+	coverage = iCoverage;
 }

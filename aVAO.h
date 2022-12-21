@@ -5,7 +5,7 @@
 #include "vec2.h"
 #include "vec4.h"
 
-typedef struct
+typedef struct VAO
 {
     // A list containing indices -> 1 unsigned int per index.
     AArrayList ibo;

@@ -1,16 +1,16 @@
 #pragma once
 
-typedef struct
+typedef struct AArrayList
 {
     // Capacity in elements
     unsigned int capacity;
     // Size of list in elemts
     unsigned int size;
-    const unsigned int elementSize;
+    const unsigned int sizeOfElement;
     void *data;
 } AArrayList;
 
-AArrayList createAArrayList(unsigned int elementSize);
+AArrayList createAArrayList(unsigned int sizeOfElement);
 
 void addToArrayList(AArrayList *list, void *ptr);
 void addArrayToArrayList(AArrayList *list, void *ptr, unsigned int numElements);

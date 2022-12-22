@@ -3,13 +3,20 @@
 #include <stdio.h>
 #include "aArrayList.h"
 
-AArrayList createAArrayList(unsigned int sizeOfElement)
+void initAArrayList(AArrayList *list, unsigned int sizeOfElement)
 {
-    AArrayList list = {1, 0, sizeOfElement, malloc(16 * sizeOfElement)};
+    AArrayList l = {8, 0, sizeOfElement, malloc(8 * sizeOfElement)};
+    memcpy(list, &l, sizeof(AArrayList));
+}
+
+AArrayList *createAArrayList(unsigned int sizeOfElement)
+{
+
+    AArrayList *list = malloc(sizeof(AArrayList));
+    initAArrayList(list, sizeOfElement);
     return list;
 }
 
-// Adds the specified element to the ArrayList.
 void addToArrayList(AArrayList *list, void *ptr)
 {
     if (list->capacity <= list->size)
@@ -23,7 +30,6 @@ void addToArrayList(AArrayList *list, void *ptr)
     list->size++;
 }
 
-// Adds the specified array to the ArrayList.
 void addArrayToArrayList(AArrayList *list, void *ptr, unsigned int numElements)
 {
     if (list->capacity <= list->size + numElements)
@@ -37,7 +43,7 @@ void addArrayToArrayList(AArrayList *list, void *ptr, unsigned int numElements)
     list->size += numElements;
 }
 
-void printArrayList(AArrayList *list, const char c)
+void printArrayList(AArrayList *list, char c)
 {
     printf("ArrayList:\n\tsize:\t\t%u\n\telement size:\t%u\n\tcapacity:\t%u\n\t[", list->size, list->sizeOfElement, list->capacity);
 
@@ -71,7 +77,8 @@ void printArrayList(AArrayList *list, const char c)
     printf("]\n");
 }
 
-void freeArrayList(AArrayList *list)
+void destroyArrayList(AArrayList *list)
 {
     free(list->data);
+    free(list);
 }

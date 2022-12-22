@@ -10,12 +10,13 @@
 #include "aScene.h"
 #include "vec3.h"
 #include "aArrayList.h"
+#include "aList.h"
 #include "vec2.h"
 #include "vec4.h"
 
 static AFramebuffer dfbo = {0, 0, 0, 0};
 static GLFWwindow *window;
-static AScene scene;
+static AScene *scene;
 
 static void prepFrameCycle()
 {
@@ -27,14 +28,14 @@ static void prepFrameCycle()
 static void drawFrame()
 {
     prepFrameCycle();
-    AList vaoList = scene.vaos;
-    VAO **vaos = (VAO **)vaoList.data;
-    glUseProgram(scene.shader.prog);
+    AList *vaoList = scene->vaos;
+    VAO **vaos = (VAO **)vaoList->data;
+    glUseProgram(scene->shader->prog);
     glBindVertexArray(vaos[0]->glVAO);
 
-    for (unsigned int i = 0; i < vaoList.size; i++)
+    for (unsigned int i = 0; i < vaoList->size; i++)
     {
-        glDrawElements(GL_TRIANGLES, vaos[0]->ibo.size, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, vaos[0]->ibo->size, GL_UNSIGNED_INT, 0);
     }
 
     glBindVertexArray(0);
@@ -66,14 +67,14 @@ int main(int argc, char *argv[])
     vec4 vcbo[] = {{1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.0f}};
     float coverage[] = {1.0f, 1.0f, 1.0f};
 
-    VAO vao = createVAOFromData(3, 3, ibo, pbo, vcbo, coverage);
-    printVAO(&vao);
+    VAO *vao = createVAOFromData(3, 3, ibo, pbo, vcbo, coverage);
+    printVAO(vao);
 
-    AShader sha = createShader("shader/basicVert.glsl", "shader/basicFrag.glsl");
+    AShader *sha = createShader("shader/basicVert.glsl", "shader/basicFrag.glsl");
 
-    scene.shader = sha;
-    scene.vaos = createAList();
-    addToList(&scene.vaos, &vao);
+    scene = createAScene();
+    scene->shader = sha;
+    addToAList(scene->vaos, vao);
 
     printf_s("Begin Loop\n");
     clock_t start_t, end_t;
@@ -97,7 +98,7 @@ int main(int argc, char *argv[])
     }
 
     printf_s("Destroy Scene\n");
-    destroyScene(&scene);
+    destroyScene(scene);
 
     printf("Destroy GLTF window\n");
     glfwDestroyWindow(window);

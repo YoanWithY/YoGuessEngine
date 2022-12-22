@@ -1,25 +1,49 @@
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include "aList.h"
 
-AList createAList()
+void initAList(AList *list)
 {
-    AList list = {16, 0, malloc(16 * sizeof(NULL))};
+    list->size = 0;
+    list->capacity = 8;
+    list->data = malloc(list->capacity * sizeof(NULL));
+}
+
+AList *createAList()
+{
+    AList *list = malloc(sizeof(AList));
+    initAList(list);
     return list;
 }
 
-void addToList(AList *list, void *ptr)
+void addToAList(AList *list, void *ptr)
 {
     if (list->capacity <= list->size)
     {
         list->capacity *= 2;
-        list->data = realloc(list->data, list->capacity * sizeof(void *));
+        list->data = realloc(list->data, list->capacity * sizeof(NULL));
     }
 
     list->data[list->size] = ptr;
     list->size++;
 }
 
-void freeList(AList *list)
+void addArrayToAList(AList *list, void *ptr, unsigned int numElements)
+{
+    if (list->capacity <= list->size + numElements)
+    {
+        list->capacity = list->size + numElements + 4;
+        list->data = realloc(list->data, list->capacity * sizeof(NULL));
+    }
+
+    char *cast = (char *)list->data;
+    memcpy(cast + (list->size * sizeof(NULL)), ptr, numElements * sizeof(NULL));
+    list->size += numElements;
+}
+
+void destroyAList(AList *list)
 {
     free(list->data);
+    free(list);
 }

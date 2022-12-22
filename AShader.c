@@ -4,7 +4,7 @@
 #include <glew.h>
 #include "aShader.h"
 /* Loads the content of a file and tries to compile it as the specified AShader type. */
-static GLuint loadShader(char fileName[], GLenum type)
+static GLuint loadShader(char *fileName, GLenum type)
 {
     GLuint shader = glCreateShader(type);
 
@@ -60,8 +60,7 @@ static GLuint loadShader(char fileName[], GLenum type)
     return shader;
 }
 
-/* Creates a AShader structure which contains the gl pointer to the linked program. */
-AShader createShader(char vertName[], char fragName[])
+void initShader(AShader *shader, char *vertName, char *fragName)
 {
     GLuint vert = loadShader(vertName, GL_VERTEX_SHADER);
     GLuint frag = loadShader(fragName, GL_FRAGMENT_SHADER);
@@ -74,11 +73,18 @@ AShader createShader(char vertName[], char fragName[])
     glDeleteShader(vert);
     glDeleteShader(frag);
 
-    AShader s = {prog};
-    return s;
+    shader->prog = prog;
+}
+
+AShader *createShader(char *vertName, char *fragName)
+{
+    AShader *shader = malloc(sizeof(AShader));
+    initShader(shader, vertName, fragName);
+    return shader;
 }
 
 void destroyShader(AShader *shader)
 {
     glDeleteProgram(shader->prog);
+    free(shader);
 }

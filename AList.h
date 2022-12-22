@@ -1,14 +1,27 @@
 #pragma once
 
+// A list storing a variable number of elements. This conzept ist equivalent to a Vector in c++ or a ArrayList in Java.
 typedef struct AList
 {
-    unsigned int capacity, size;
+    // Capacity in elements
+    unsigned int capacity;
+    // Size of list in elemts
+    unsigned int size;
+    // The pointer to the pointers.
     void **data;
 } AList;
 
-AList createAList();
+// Initilizes an AList at the specified pointer.
+void initAList(AList *list);
 
-void addToList(AList *list, void *ptr);
+// Constructor for an AList.
+AList *createAList();
 
-// Frees the data allocated for this list. @note The list only consists of pointers. The memory they point to will be left unchanged.
-void freeList(AList *list);
+// Adds the specified element to the AList.
+void addToAList(AList *list, void *ptr);
+
+// Adds the specified array to the AList.
+void addArrayToAList(AList *list, void *ptr, unsigned int numElements);
+
+// Frees the underlying array and the AList it self. After this call the AList pointer is dangling.
+void destroyAList(AList *list);

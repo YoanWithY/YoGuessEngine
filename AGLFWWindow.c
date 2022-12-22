@@ -25,7 +25,7 @@ void glm(GLenum source,
          const GLchar *message,
          const void *userParam)
 {
-    printf_s("OpenGL Message: %s", message);
+    printf_s("OpenGL Message: %s\n", message);
 }
 
 GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *dfbo)

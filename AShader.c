@@ -74,6 +74,7 @@ void initShader(AShader *shader, char *vertName, char *fragName)
     glDeleteShader(frag);
 
     shader->prog = prog;
+    shader->glSceneScale = glGetUniformLocation(prog, "sceneScale");
 }
 
 AShader *createShader(char *vertName, char *fragName)

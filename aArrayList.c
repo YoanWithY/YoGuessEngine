@@ -5,7 +5,7 @@
 
 void initAArrayList(AArrayList *list, unsigned int sizeOfElement)
 {
-    AArrayList l = {8, 0, sizeOfElement, malloc(8 * sizeOfElement)};
+    AArrayList l = {4, 0, sizeOfElement, malloc(4 * sizeOfElement)};
     memcpy(list, &l, sizeof(AArrayList));
 }
 
@@ -17,7 +17,7 @@ AArrayList *createAArrayList(unsigned int sizeOfElement)
     return list;
 }
 
-void addToArrayList(AArrayList *list, void *ptr)
+void addToArrayAArrayList(AArrayList *list, void *ptr)
 {
     if (list->capacity <= list->size)
     {
@@ -30,7 +30,7 @@ void addToArrayList(AArrayList *list, void *ptr)
     list->size++;
 }
 
-void addArrayToArrayList(AArrayList *list, void *ptr, unsigned int numElements)
+void addArrayToAArrayList(AArrayList *list, void *ptr, unsigned int numElements)
 {
     if (list->capacity <= list->size + numElements)
     {

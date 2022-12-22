@@ -6,6 +6,7 @@ typedef struct AShader
 {
     // The pointer to this shaders program
     GLuint prog;
+    GLint glSceneScale;
 } AShader;
 
 // Initilizes an AShader at the specified pointer.

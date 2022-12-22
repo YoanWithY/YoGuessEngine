@@ -29,7 +29,7 @@ void addToAList(AList *list, void *ptr)
     list->size++;
 }
 
-void addArrayToAList(AList *list, void *ptr, unsigned int numElements)
+void addArrayToAList(AList *list, void **ptr, unsigned int numElements)
 {
     if (list->capacity <= list->size + numElements)
     {
@@ -37,8 +37,11 @@ void addArrayToAList(AList *list, void *ptr, unsigned int numElements)
         list->data = realloc(list->data, list->capacity * sizeof(NULL));
     }
 
-    char *cast = (char *)list->data;
-    memcpy(cast + (list->size * sizeof(NULL)), ptr, numElements * sizeof(NULL));
+    for (unsigned int i = 0; i < numElements; i++)
+    {
+        list->data[list->size + i] = ptr[i];
+    }
+
     list->size += numElements;
 }
 

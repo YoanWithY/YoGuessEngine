@@ -7,14 +7,8 @@
 
 typedef struct VAO
 {
-    // A list containing indices -> 1 unsigned int per index.
-    AArrayList *ibo;
-    // A list containing position data -> 1 vec2(x, y) per vertex.
-    AArrayList *pbo;
-    // A list containg vertex color data -> 1 vec4(r, g, b, a) per vertex.
-    AArrayList *vcbo;
-    // Alist containg coverage data -> 1 float per vertex.
-    AArrayList *coverage;
+    // Number of indices.
+    unsigned int numIndices;
     // The gl pointer to the VAO.
     GLuint glVAO;
     // The gl pointer to the IBO.

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "aArrayList.h"
+#include "aList.h"
 #include "aVAO.h"
 #include "vec3.h"
 
@@ -38,7 +38,7 @@ typedef struct SVGCommand
 } SVGCommand;
 
 //  @param *svgl must be a list of SVGCommada.
-VAO *svgToVbo(AArrayList *svgl);
+VAO *svgToVbo(AList *svgl);
 
 void svgSetFill(vec3 *color);
 void svgSetStroke(vec3 *color);

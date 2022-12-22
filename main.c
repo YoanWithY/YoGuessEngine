@@ -10,6 +10,7 @@
 #include "aScene.h"
 #include "vec3.h"
 #include "aArrayList.h"
+#include "basicShape.h"
 #include "aList.h"
 #include "vec2.h"
 #include "vec4.h"
@@ -28,14 +29,14 @@ static void prepFrameCycle()
 static void drawFrame()
 {
     prepFrameCycle();
-    AList *vaoList = scene->vaos;
-    VAO **vaos = (VAO **)vaoList->data;
+    AList *vaoList = scene->basicShapes;
+    BasicShape **basicShapes = (BasicShape **)vaoList->data;
     glUseProgram(scene->shader->prog);
-    glBindVertexArray(vaos[0]->glVAO);
 
     for (unsigned int i = 0; i < vaoList->size; i++)
     {
-        glDrawElements(GL_TRIANGLES, vaos[0]->ibo->size, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(basicShapes[i]->vao->glVAO);
+        glDrawElements(GL_TRIANGLES, basicShapes[i]->vao->numIndices, GL_UNSIGNED_INT, 0);
     }
 
     glBindVertexArray(0);
@@ -48,6 +49,10 @@ static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     dfbo.width = width;
     dfbo.height = height;
+    glUseProgram(scene->shader->prog);
+    glUniform2f(scene->shader->glSceneScale, (float)dfbo.width, -(float)dfbo.height);
+    glUseProgram(0);
+    glViewport(0, 0, width, height);
     drawFrame();
 }
 
@@ -62,25 +67,23 @@ int main(int argc, char *argv[])
     printf_s("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
     printf_s("Vendor: %s\n", glGetString(GL_VENDOR));
 
-    unsigned int ibo[] = {0, 1, 2};
-    vec2 pbo[] = {{0.0f, 0.5f}, {-0.5f, -0.5f}, {0.5f, -0.5f}};
-    vec4 vcbo[] = {{1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.0f}};
-    float coverage[] = {1.0f, 1.0f, 1.0f};
-
-    VAO *vao = createVAOFromData(3, 3, ibo, pbo, vcbo, coverage);
-    printVAO(vao);
-
     AShader *sha = createShader("shader/basicVert.glsl", "shader/basicFrag.glsl");
 
     scene = createAScene();
     scene->shader = sha;
-    addToAList(scene->vaos, vao);
+    addToAList(scene->basicShapes, createRectangle(10.0f, 10.0f, 245.0f, 100.0f));
 
     printf_s("Begin Loop\n");
     clock_t start_t, end_t;
     double total_t;
     unsigned long long step = 0;
+
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glUseProgram(scene->shader->prog);
+    glUniform2f(scene->shader->glSceneScale, (float)dfbo.width, -(float)dfbo.height);
+    glUseProgram(0);
+    glViewport(0, 0, 512, 512);
+
     while (!glfwWindowShouldClose(window))
     {
         start_t = clock();

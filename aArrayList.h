@@ -20,10 +20,10 @@ void initAArrayList(AArrayList *list, unsigned int sizeOfElement);
 AArrayList *createAArrayList(unsigned int sizeOfElement);
 
 // Adds the specified element to the ArrayList.
-void addToArrayList(AArrayList *list, void *ptr);
+void addToArrayAArrayList(AArrayList *list, void *ptr);
 
 // Adds the specified array to the ArrayList.
-void addArrayToArrayList(AArrayList *list, void *ptr, unsigned int numElements);
+void addArrayToAArrayList(AArrayList *list, void *ptr, unsigned int numElements);
 
 // Print the array. The format of is determined by c. @param c The format.
 void printArrayList(AArrayList *list, char c);

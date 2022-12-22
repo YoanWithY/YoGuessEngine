@@ -7,7 +7,7 @@
 typedef struct AScene
 {
     AShader *shader;
-    AList *vaos;
+    AList *basicShapes;
 } AScene;
 
 // Creates a Scene.

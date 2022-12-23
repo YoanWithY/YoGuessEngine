@@ -3,17 +3,12 @@
 #include <stdio.h>
 #include "aArrayList.h"
 
-void initAArrayList(AArrayList *list, unsigned int sizeOfElement)
-{
-    AArrayList l = {4, 0, sizeOfElement, malloc(4 * sizeOfElement)};
-    memcpy(list, &l, sizeof(AArrayList));
-}
-
 AArrayList *createAArrayList(unsigned int sizeOfElement)
 {
 
     AArrayList *list = malloc(sizeof(AArrayList));
-    initAArrayList(list, sizeOfElement);
+    AArrayList l = {4, 0, sizeOfElement, malloc(4 * sizeOfElement)};
+    memcpy(list, &l, sizeof(AArrayList));
     return list;
 }
 

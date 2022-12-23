@@ -3,6 +3,7 @@
 #include <string.h>
 #include <glew.h>
 #include "aShader.h"
+#include "mat3.h"
 /* Loads the content of a file and tries to compile it as the specified AShader type. */
 static GLuint loadShader(char *fileName, GLenum type)
 {
@@ -60,8 +61,9 @@ static GLuint loadShader(char *fileName, GLenum type)
     return shader;
 }
 
-void initShader(AShader *shader, char *vertName, char *fragName)
+AShader *createShader(char *vertName, char *fragName)
 {
+    AShader *shader = malloc(sizeof(AShader));
     GLuint vert = loadShader(vertName, GL_VERTEX_SHADER);
     GLuint frag = loadShader(fragName, GL_FRAGMENT_SHADER);
     GLuint prog = glCreateProgram();
@@ -75,12 +77,8 @@ void initShader(AShader *shader, char *vertName, char *fragName)
 
     shader->prog = prog;
     shader->glSceneScale = glGetUniformLocation(prog, "sceneScale");
-}
+    shader->glTMat = glGetUniformLocation(prog, "tMat");
 
-AShader *createShader(char *vertName, char *fragName)
-{
-    AShader *shader = malloc(sizeof(AShader));
-    initShader(shader, vertName, fragName);
     return shader;
 }
 

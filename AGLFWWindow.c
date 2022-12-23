@@ -9,14 +9,6 @@ static void error_callback(int error, const char description[])
     printf_s("GLTF Error: %s\n", description);
 }
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-
-    printf_s("Key: %d, Scanncode: %d, action: %d, mods: %d\n", key, scancode, action, mods);
-}
-
 void glm(GLenum source,
          GLenum type,
          GLuint id,
@@ -28,7 +20,7 @@ void glm(GLenum source,
     printf_s("OpenGL Message: %s\n", message);
 }
 
-GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *dfbo)
+GLFWwindow *initGLFWAndGLEW(char title[], int width, int height, AFramebuffer *dfbo, void (*key_callback)(GLFWwindow *window, int key, int scancode, int action, int mods))
 {
     glfwSetErrorCallback(error_callback);
 

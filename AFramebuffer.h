@@ -8,8 +8,5 @@ typedef struct AFramebuffer
     GLuint colorRT;
 } AFramebuffer;
 
-// Initilizes a AFramebuffer at the specified pointer.
-void initAFramebuffer(AFramebuffer *const fbo, const unsigned int width, const unsigned int height);
-
 // Constructor for an AFramebuffer.
 AFramebuffer *createAFramebuffer(const unsigned int width, const unsigned int height);

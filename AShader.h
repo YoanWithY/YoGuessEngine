@@ -1,5 +1,6 @@
 #pragma once
 #include <glew.h>
+#include "mat3.h"
 
 // AShader which contains the GL pointer to the linked program.
 typedef struct AShader
@@ -7,10 +8,8 @@ typedef struct AShader
     // The pointer to this shaders program
     GLuint prog;
     GLint glSceneScale;
+    GLint glTMat;
 } AShader;
-
-// Initilizes an AShader at the specified pointer.
-void initShader(AShader *shader, char *vertName, char *fragName);
 
 /* Creates a AShader. */
 AShader *createShader(char *vertName, char *fragName);

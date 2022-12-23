@@ -3,17 +3,12 @@
 #include <stdio.h>
 #include "aList.h"
 
-void initAList(AList *list)
-{
-    list->size = 0;
-    list->capacity = 8;
-    list->data = malloc(list->capacity * sizeof(NULL));
-}
-
 AList *createAList()
 {
     AList *list = malloc(sizeof(AList));
-    initAList(list);
+    list->size = 0;
+    list->capacity = 8;
+    list->data = malloc(list->capacity * sizeof(NULL));
     return list;
 }
 

@@ -11,9 +11,6 @@ typedef struct AList
     void **data;
 } AList;
 
-// Initilizes an AList at the specified pointer.
-void initAList(AList *list);
-
 // Constructor for an AList.
 AList *createAList();
 

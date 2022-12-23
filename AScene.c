@@ -4,15 +4,10 @@
 #include "aScene.h"
 #include "aList.h"
 
-void initAScene(AScene *scene)
-{
-    scene->basicShapes = createAList(sizeof(BasicShape));
-}
-
 AScene *createAScene()
 {
     AScene *scene = malloc(sizeof(AScene));
-    initAScene(scene);
+    scene->basicShapes = createAList(sizeof(BasicShape));
     return scene;
 };
 

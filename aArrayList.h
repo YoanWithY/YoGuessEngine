@@ -13,9 +13,6 @@ typedef struct AArrayList
     void *data;
 } AArrayList;
 
-// Initilizes an ArrayList at the specified pointer.
-void initAArrayList(AArrayList *list, unsigned int sizeOfElement);
-
 // Constructor for an ArrayList.
 AArrayList *createAArrayList(unsigned int sizeOfElement);
 

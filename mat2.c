@@ -7,7 +7,7 @@ mat2 *createMat2()
     return mat;
 }
 
-void setIdentety(mat2 *mat)
+void setMat2Identity(mat2 *mat)
 {
     *mat[0][0] = 1;
     *mat[0][1] = 0;

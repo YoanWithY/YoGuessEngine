@@ -28,7 +28,8 @@ static void vaoInitGL(VAO *vao)
     createElementArrayBuffer(&(vao->glIBO));
     createVertexArrayBufferAndAttribute(&vao->glPBO, 0, 2);
     createVertexArrayBufferAndAttribute(&vao->glVCBO, 1, 4);
-    createVertexArrayBufferAndAttribute(&vao->glCOVBO, 2, 1);
+    createVertexArrayBufferAndAttribute(&vao->glSDFBO, 2, 1);
+    createVertexArrayBufferAndAttribute(&vao->glABO, 3, 1);
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
@@ -56,20 +57,21 @@ VAO *createVAO()
     return vao;
 }
 
-VAO *createVAOFromData(unsigned int numIndices, unsigned int numVertices, unsigned int *ibo, vec2 *pbo, vec4 *vcbo, float *coverage)
+VAO *createVAOFromData(unsigned int numIndices, unsigned int numVertices, unsigned int *ibo, vec2 *pbo, vec4 *vcbo, float *sdfbo, float *abo)
 {
     VAO *vao = createVAO();
     vao->numIndices = numIndices;
     storeIndexBufferInGLIBO(vao, numIndices, ibo);
     storeFloatDataInGLVBO(vao->glPBO, numVertices * 2, (float *)pbo);
     storeFloatDataInGLVBO(vao->glVCBO, numVertices * 4, (float *)vcbo);
-    storeFloatDataInGLVBO(vao->glCOVBO, numVertices, coverage);
+    storeFloatDataInGLVBO(vao->glSDFBO, numVertices, sdfbo);
+    storeFloatDataInGLVBO(vao->glABO, numVertices, abo);
     return vao;
 }
 
 void printVAO(VAO *vao)
 {
-    printf("VAO:\nglVAO\tid:%d\nglIBO\tid:%d\nglPBO\tid:%d\nglVCBO\tid:%d\nglCOVBO\tid:%d\n", vao->glVAO, vao->glIBO, vao->glPBO, vao->glVCBO, vao->glCOVBO);
+    printf("VAO:\nglVAO\tid:%d\nglIBO\tid:%d\nglPBO\tid:%d\nglVCBO\tid:%d\nglCOVBO\tid:%d\n", vao->glVAO, vao->glIBO, vao->glPBO, vao->glVCBO, vao->glSDFBO);
 }
 
 void destroyVAO(VAO *vao)
@@ -77,6 +79,6 @@ void destroyVAO(VAO *vao)
     glDeleteBuffers(1, &vao->glIBO);
     glDeleteBuffers(1, &vao->glPBO);
     glDeleteBuffers(1, &vao->glVCBO);
-    glDeleteBuffers(1, &vao->glCOVBO);
+    glDeleteBuffers(1, &vao->glSDFBO);
     free(vao);
 }

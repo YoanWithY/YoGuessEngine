@@ -17,8 +17,10 @@ typedef struct VAO
     GLuint glPBO;
     // The gl pointer to the VCBO.
     GLuint glVCBO;
-    // The gl pointer to the COVBO.
-    GLuint glCOVBO;
+    // The gl pointer to the SDFBO.
+    GLuint glSDFBO;
+    // The gl pointer to the ABO.
+    GLuint glABO;
 } VAO;
 
 // Initilizes a VAO at the specified Pointer.
@@ -28,7 +30,7 @@ void initVAO(VAO *vao);
 VAO *createVAO();
 
 // Creates a VAO from data.
-VAO *createVAOFromData(unsigned int numIndices, unsigned int numVertices, unsigned int *ibo, vec2 *pbo, vec4 *vcbo, float *coverage);
+VAO *createVAOFromData(unsigned int numIndices, unsigned int numVertices, unsigned int *ibo, vec2 *pbo, vec4 *vcbo, float *sdfbo, float *abo);
 
 // Prints the VAO
 void printVAO(VAO *vao);

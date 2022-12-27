@@ -7,6 +7,7 @@
 typedef struct AScene
 {
     AShader *shader;
+    GLuint glAALUT;
     AList *basicShapes;
 } AScene;
 

@@ -9,6 +9,7 @@ typedef struct AShader
     GLuint prog;
     GLint glSceneScale;
     GLint glTMat;
+    GLint glRotAdd;
 } AShader;
 
 /* Creates a AShader. */

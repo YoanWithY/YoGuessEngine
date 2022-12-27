@@ -96,12 +96,15 @@ static void drawFrame()
     BasicShape **basicShapes = (BasicShape **)vaoList->data;
     glUseProgram(scene->shader->prog);
     AShader *shader = scene->shader;
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, scene->glAALUT);
 
     for (unsigned int i = 0; i < vaoList->size; i++)
     {
         BasicShape *shape = basicShapes[i];
         glBindVertexArray(shape->vao->glVAO);
         makeRotatationTranslationTransformation(tMat, shape->rotation, shape->translation);
+        glUniform1f(shader->glRotAdd, shape->rotation / 1.57079632679f);
         glUniformMatrix3fv(shader->glTMat, 1, GL_TRUE, (const GLfloat *)tMat);
         glDrawElements(GL_TRIANGLES, shape->vao->numIndices, GL_UNSIGNED_INT, 0);
     }
@@ -144,7 +147,7 @@ int main(int argc, char *argv[])
     scene = createAScene();
     scene->shader = sha;
 
-    addToAList(scene->basicShapes, createRectangleAA(10.0f, 10.0f, 245.0f, 100.0f));
+    addToAList(scene->basicShapes, createRectangleAA(0.0f, 0.0f, 362.0f, 128.0f));
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     framebuffer_size_callback(window, 512, 512);

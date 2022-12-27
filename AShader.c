@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glew.h>
+#include <math.h>
 #include "aShader.h"
-#include "mat3.h"
+
 /* Loads the content of a file and tries to compile it as the specified AShader type. */
 static GLuint loadShader(char *fileName, GLenum type)
 {
@@ -78,6 +79,7 @@ AShader *createShader(char *vertName, char *fragName)
     shader->prog = prog;
     shader->glSceneScale = glGetUniformLocation(prog, "sceneScale");
     shader->glTMat = glGetUniformLocation(prog, "tMat");
+    shader->glRotAdd = glGetUniformLocation(prog, "rotAdd");
 
     return shader;
 }

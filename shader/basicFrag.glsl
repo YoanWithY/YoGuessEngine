@@ -9,7 +9,7 @@ in float angle;
 layout(binding = 0) uniform sampler2D coverage;
 const float remap = 1.41421356237;
 
-float covarage(){
+float coverage(){
 	if(distance >= 0){
 		return clamp(texture(coverage, vec2(distance * remap, angle)).x / 2, 0, 1);
 	}
@@ -19,5 +19,5 @@ float covarage(){
 }
 
 void main(void){
-	out_Color = vec4(color.rgb, color.a * covarage());
+	out_Color = vec4(color.rgb, color.a * coverage());
 }
